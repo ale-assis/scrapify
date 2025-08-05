@@ -26,12 +26,12 @@ def extract_wiki_text(url, file_name='resultado.txt'):
         print("Conteúdo principal não encontrado.")
         return
 
-    # Junta todo o texto dos parágrafos
-    paragraphs = content_div.find_all(['p', 'h2', 'h3', 'li'])
+    # Coleta o conteúdo completo
+    paragraphs = content_div.find_all(['p', 'h2', 'h3', 'li','ul', 'ol', 'div'])
     final_text = text_title + '\n\n'
 
     for element in paragraphs:
-        text = element.get_text(strip=True)
+        text = element.get_text(strip=True, separator=' ')
         if text:
             final_text += text + '\n\n'
 
