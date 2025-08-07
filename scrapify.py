@@ -29,15 +29,14 @@ def extract_wiki_text(url, file_name='resultado.txt'):
     # Coleta o conteúdo completo
     final_text = text_title + '\n\n'
 
-    for element in content_div.find_all(recursive=False):
-        if element.name in ['p', 'h2', 'h3', 'ul', 'ol', 'dl', 'table', 'div']:
-            # Ignorar navegação e rodapé
-            if element.get('class') and any(c in ['navbox', 'vertical-navbox', 'toc'] for c in element.get('class')):
-                continue
+    for element in content_div.find_all(['p', 'h2', 'h3', 'ul', 'ol'], recursive=True):
+        # Ignorar navegação e rodapé (opcional e menos agressivo)
+        if element.get('class') and 'navbox' in element.get('class'):
+            continue
 
-            text = element.get_text(separator=' ', strip=True)
-            if text:
-                final_text += text + '\n\n'
+        text = element.get_text(separator=' ', strip=True)
+        if text:
+            final_text += text + '\n\n'
 
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(final_text)
